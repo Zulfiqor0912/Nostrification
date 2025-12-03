@@ -1,0 +1,133 @@
+﻿@model Nostrification.Domain.Entities.IndexStatViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>NOSTRIFIKATSIYA</h1>
+    <p class="lead">Xorijiy davlatda umumiy o‘rta va o‘rta ta’lim olganlik to‘g‘risidagi hujjatni tan olish uchun ariza yuborish tizimi</p>
+    <p><a href="https://oldmy.gov.uz/uz/service/290" class="btn btn-primary btn-lg">Ariza yuborish &raquo;</a></p>
+    @*<p><a data-toggle="modal" data-target="#Modal1" class="btn btn-info btn-lg">Ariza holatini tekshirish &raquo;</a></p>*@
+</div>
+<hr />
+<br />
+<h3 class="text-center">STATISTIKA</h3>
+<br />
+<br />
+<div class="row">
+
+    <div class="col-md-4" style="border-right: 1px solid black">
+        <div class="text-center">
+            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-archive" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2 5v7.5c0 .864.642 1.5 1.357 1.5h9.286c.715 0 1.357-.636 1.357-1.5V5h1v7.5c0 1.345-1.021 2.5-2.357 2.5H3.357C2.021 15 1 13.845 1 12.5V5h1z" />
+                <path fill-rule="evenodd" d="M5.5 7.5A.5.5 0 0 1 6 7h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5zM15 2H1v2h14V2zM1 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H1z" />
+            </svg>
+            <br /><br />
+            <h1> 0 </h1>
+            @* @Model.Total *@
+            <h4>Jami arizalar</h4>
+        </div>
+    </div>
+    <div class="col-md-4" style="border-right: 1px solid black">
+        <div class="text-center">
+            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-folder-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M9.828 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H9.828zm-2.95-1.707L7.587 3H2.19c-.24 0-.47.042-.684.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293z" />
+                <path fill-rule="evenodd" d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0z" />
+            </svg>
+            <br /><br />
+            <h1>0</h1>
+            @* @Model.Close *@
+            <h4>Yopildi</h4>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="text-center">
+            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-envelope-open" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.818l5.724 3.465L8 8.917l1.276.766L15 6.218V5.4a1 1 0 0 0-.53-.882l-6-3.2zM15 7.388l-4.754 2.877L15 13.117v-5.73zm-.035 6.874L8 10.083l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738zM1 13.117l4.754-2.852L1 7.387v5.73zM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765l6-3.2z" />
+            </svg>
+            <br /><br />
+            <h1>0</h1>
+            @* @Model.Open *@
+            <h4>Ochiq</h4>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+<form method="post" action="/Home/Claim/">
+    <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Izlash</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Telefon raqamingiz</label>
+                    <input type="text" class="form-control" name="PhoneNumber" required id="phone">
+                    <label>Murojaat raqami</label>
+                    <input type="text" class="form-control" name="ClaimId" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ortga</button>
+                    <button type="submit" class="btn btn-primary">Izlash</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="~/Scripts/jquery.inputmask.js"></script>
+<script>
+    $(function () {
+        $("#phone").inputmask({ "mask": "+\\9\\98(99) 999-9999" });
+    });
+
+    $(document).ready(function () {
+        bsCustomFileInput.init()
+
+        $.getJSON("/GetApi/GetDistricts/0", function (result) {
+            var $dropdown = $("#Regions");
+            $.each(result, function () {
+                $dropdown.append($("<option />").val(this.Id).text(this.NameUz));
+            });
+        });
+
+        $("#Regions").change(function () {
+            var region = this.value;
+            $('#Districts').empty();
+            $.getJSON("/GetApi/GetDistricts/" + region, function (result) {
+                var $dropdown = $("#Districts");
+                $.each(result, function () {
+                    $dropdown.append($("<option />").val(this.Id).text(this.NameUz));
+                });
+            });
+        });
+
+        $.getJSON("/GetApi/GetCountries/", function (result) {
+            var $dropdown = $("#Countries");
+            $.each(result, function () {
+                $dropdown.append($("<option />").val(this.Id).text(this.NameUz));
+            });
+        });
+
+        $.getJSON("/GetApi/GetStudyTypes/", function (result) {
+            var $dropdown = $("#StudyTypes");
+            $.each(result, function () {
+                $dropdown.append($("<option />").val(this.Id).text(this.Name));
+            });
+        });
+
+        $.getJSON("/GetApi/GetStudySteps/", function (result) {
+            var $dropdown = $("#StudySteps");
+            $.each(result, function () {
+                $dropdown.append($("<option />").val(this.Id).text(this.Name));
+            });
+        });
+    })
+</script>
