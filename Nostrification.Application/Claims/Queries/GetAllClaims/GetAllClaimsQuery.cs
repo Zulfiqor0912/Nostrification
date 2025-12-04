@@ -3,7 +3,7 @@ using Nostrification.Application.Claims.Dtos;
 
 namespace Nostrification.Application.Claims.Queries.GetClaims;
 
-public class GetAllClaimsQuery : IRequest<IEnumerable<ClaimDto>>
+public class GetAllClaimsQuery : IRequest<List<ClaimDto>>
 {
     public GetAllClaimsQuery()
     {

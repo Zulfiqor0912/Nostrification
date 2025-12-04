@@ -10,17 +10,27 @@ public class GetAllClaimsQueryHandler(
     ILogger<GetAllClaimsQueryHandler> logger,
     IMapper mapper,
     IClaimRepository claimRepository
-    ) : IRequestHandler<GetAllClaimsQuery, IEnumerable<ClaimDto>>
+    ) : IRequestHandler<GetAllClaimsQuery, List<ClaimDto>>
 {
-    public async Task<IEnumerable<ClaimDto>> Handle(GetAllClaimsQuery request, CancellationToken cancellationToken)
+    public async Task<List<ClaimDto>> Handle(GetAllClaimsQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var allClaims = await claimRepository.GetClaimsAsyn();
+
+            if (allClaims == null || !allClaims.Any())
+            {
+                logger.LogInformation("No claims found.. Query: {Query}", nameof(GetAllClaimsQuery));
+                return new List<ClaimDto>();
+            }
+            var claims = allClaims.ToList();
+            var result = mapper.Map<List<ClaimDto>>(claims);
+            return result;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            
+            logger.LogError(ex, "Error GetAllClaimsQuery");
+            throw new ApplicationException("There was an error retrieving claims.", ex);
         }
     }
 }

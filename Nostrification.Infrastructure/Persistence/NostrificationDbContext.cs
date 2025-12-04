@@ -8,7 +8,7 @@ public class NostrificationDbContext(DbContextOptions<NostrificationDbContext> o
 {
     public DbSet<Claim> Claims { get; set; }
     public DbSet<ClaimerType> ClaimerTypes { get; set; }
-    public DbSet<ClaimStatus> ClaimStatuses { get; set; }
+    public DbSet<ClaimStatus> ClaimStatus { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<Role> Roles { get; set; }

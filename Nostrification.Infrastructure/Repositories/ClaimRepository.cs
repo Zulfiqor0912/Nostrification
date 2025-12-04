@@ -12,12 +12,7 @@ public class ClaimRepository(NostrificationDbContext dbContext) : IClaimReposito
         var claims = await dbContext.Claims
             .Where(c => c.StatusId != 5) // soft delete 
             .Include(x => x.Region)
-            .Include(x => x.District)
-            .Include(x => x.ClaimerType)
             .Include(x => x.ClaimStatus)
-            .Include(x => x.Country)
-            .Include(x => x.StudyType)
-            .Include(x => x.StudyStep)
             .ToListAsync();
         return claims;
     }

@@ -1,8 +1,9 @@
+using Nostrification.Application.Extension;
 using Nostrification.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 // Add services to the container.

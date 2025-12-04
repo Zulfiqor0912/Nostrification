@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nostrification.Domain.Repositories;
 using Nostrification.Infrastructure.Persistence;
+using Nostrification.Infrastructure.Repositories;
 
 namespace Nostrification.Infrastructure.Extensions;
 
@@ -14,6 +16,8 @@ public static class ServiceCollectionExtensions
             .AddDbContext<NostrificationDbContext>(options =>
                 options.UseSqlServer(connectionstring)
                 .EnableSensitiveDataLogging());
+
+        services.AddScoped<IClaimRepository, ClaimRepository>();
 
 
     }

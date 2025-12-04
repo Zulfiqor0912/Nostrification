@@ -208,7 +208,7 @@ namespace Nostrification.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClaimStatuses");
+                    b.ToTable("ClaimStatus");
                 });
 
             modelBuilder.Entity("Nostrification.Domain.Entities.ClaimerType", b =>

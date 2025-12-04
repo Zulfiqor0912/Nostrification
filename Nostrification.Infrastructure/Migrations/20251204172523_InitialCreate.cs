@@ -25,7 +25,7 @@ namespace Nostrification.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClaimStatuses",
+                name: "ClaimStatus",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -34,7 +34,7 @@ namespace Nostrification.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClaimStatuses", x => x.Id);
+                    table.PrimaryKey("PK_ClaimStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,9 +192,9 @@ namespace Nostrification.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Claims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Claims_ClaimStatuses_StatusId",
+                        name: "FK_Claims_ClaimStatus_StatusId",
                         column: x => x.StatusId,
-                        principalTable: "ClaimStatuses",
+                        principalTable: "ClaimStatus",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Claims_ClaimerTypes_ClaimerTypeId",
@@ -284,7 +284,7 @@ namespace Nostrification.Infrastructure.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "ClaimStatuses");
+                name: "ClaimStatus");
 
             migrationBuilder.DropTable(
                 name: "ClaimerTypes");

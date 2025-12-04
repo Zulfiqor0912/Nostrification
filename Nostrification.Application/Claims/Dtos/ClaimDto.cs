@@ -33,10 +33,8 @@ public class ClaimDto
     //public string? AnswerFile { get; set; }
     //public string? AnswerComment { get; set; }
     //public DateTime? AnswerDate { get; set; }
-    //[ForeignKey("StatusId")]
-    //public virtual ClaimStatus ClaimStatus { get; set; }
-    //[ForeignKey("UniversityCountry")]
-    //public virtual Region Region { get; set; }   
+    public virtual ClaimStatus ClaimStatus { get; set; }
+    public virtual Region Region { get; set; }
     //public string Status { get; set; }
     public DateTime? CreateDate { get; set; }
     //public DateTime? UpdateDate { get; set; }

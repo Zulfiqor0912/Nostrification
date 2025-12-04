@@ -12,7 +12,7 @@ using Nostrification.Infrastructure.Persistence;
 namespace Nostrification.Infrastructure.Migrations
 {
     [DbContext(typeof(NostrificationDbContext))]
-    [Migration("20251203140607_InitialCreate")]
+    [Migration("20251204172523_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -211,7 +211,7 @@ namespace Nostrification.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClaimStatuses");
+                    b.ToTable("ClaimStatus");
                 });
 
             modelBuilder.Entity("Nostrification.Domain.Entities.ClaimerType", b =>

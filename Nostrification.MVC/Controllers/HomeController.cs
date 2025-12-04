@@ -1,21 +1,33 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Nostrification.Application.Claims.Dtos;
+using Nostrification.Application.Claims.Queries.GetClaims;
+using Nostrification.Domain.Entities;
 using Nostrification.MVC.Models;
 
 namespace Nostrification.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(
+        IMediator mediator,
+        ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
+            var claimsDto =(await mediator.Send(new GetAllClaimsQuery())) ?? new List<ClaimDto>();
+            var totalCount = claimsDto.Count;
+            var openCount = claimsDto.Count(x => x.StatusId < 3);
+            
+            var model = new IndexStatViewModel
+            {
+                Total = totalCount,
+                Open = openCount,
+                Close = totalCount - openCount
+            };
 
-        public IActionResult Index()
-        {
-            return View();
+            return View(model);
         }
 
         public IActionResult Privacy()
