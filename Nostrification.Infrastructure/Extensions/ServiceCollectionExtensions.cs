@@ -18,7 +18,6 @@ public static class ServiceCollectionExtensions
                 .EnableSensitiveDataLogging());
 
         services.AddScoped<IClaimRepository, ClaimRepository>();
-
-
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }
