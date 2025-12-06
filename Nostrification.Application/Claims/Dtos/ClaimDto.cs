@@ -9,7 +9,7 @@ public class ClaimDto
     public int TaskId { get; set; }
     public int? ClaimerTypeId { get; set; }
     //public string? ParentName { get; set; }
-    //public string? FullName { get; set; }
+    public string? FullName { get; set; }
     //public string? PassportFile { get; set; }
     public int? RegionId { get; set; }
     //public int? DistrictId { get; set; }

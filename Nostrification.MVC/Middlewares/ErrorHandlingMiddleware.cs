@@ -46,9 +46,17 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
         }
         catch (Exception e)
         {
-            logger.LogError(e, e.Message);
-            context.Response.StatusCode = 500;
-            await context.Response.WriteAsync("Something went wrong");
+            if (context.Response.HasStarted)
+            {
+                logger.LogError(e, e.Message);
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("Something went wrong");
+            }
+            else
+            {
+                // response boshlangan bo‘lsa — log qilish kifoya
+                logger.LogWarning(e, "Response already started, cannot write error.");
+            }
         }
     }
 

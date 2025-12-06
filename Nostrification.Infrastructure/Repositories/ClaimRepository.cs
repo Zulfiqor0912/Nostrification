@@ -7,6 +7,19 @@ namespace Nostrification.Infrastructure.Repositories;
 
 public class ClaimRepository(NostrificationDbContext dbContext) : IClaimRepository
 {
+    public async Task<Claim?> GetClaimByIdAsync(int id)
+    {
+        return await dbContext.Claims
+            .Include(x => x.ClaimerType)
+            .Include(x => x.ClaimStatus)
+            .Include(x => x.Country)
+            .Include(x => x.Region)
+            .Include(x => x.District)
+            .Include(x => x.StudyType)
+            .Include(x => x.StudyStep)
+            .FirstOrDefaultAsync(x => x.TaskId == id);
+    }
+
     public async Task<IEnumerable<Claim>> GetClaimsAsyn()
     {
         var claims = await dbContext.Claims
