@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Nostrification.Application.Claims.Dtos;
+using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
 using Nostrification.Domain.Entities;
 
@@ -39,5 +40,10 @@ public class AdminController(
             return View(claims.Where(x => x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3));
         else 
             return View(claims.Where(x => x.StatusId == id));
+    }
+
+    public async Task<ActionResult> ClaimDetails(int id)
+    {
+        return View(await mediator.Send(new GetClaimByIdQuery(id)));
     }
 }

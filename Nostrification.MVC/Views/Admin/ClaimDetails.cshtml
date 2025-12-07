@@ -1,0 +1,357 @@
+@model Nostrification.Application.Claims.Dtos.ClaimDto;
+@{
+    ViewBag.Title = "ClaimDetaails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="/Admin/Claims/" class="btn btn-primary" style="margin-bottom:20px">Murojaatlar sahifasi</a>
+
+<div class="row" style="margin-bottom:20px">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6>Murojaat haqida</h6>
+            </div>
+            <div class="card-body" style="padding:0px 0px 0px 0px">
+                <table class="table table-bordered" style="margin-bottom:0px">
+                    <tbody>
+                        <tr>
+                            <td width="20%">
+                                Murojaat raqami
+                            </td>
+                            <td width="80%">
+                                @Model.TaskId
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Murojaat qilingan sana
+                            </td>
+                            <td>
+                                @Model.CreateDate
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ohirgi o'zgartirish
+                            </td>
+                            <td>
+                                @Model.UpdateDate
+                            </td>
+                        </tr>
+                        <tr style="text-align:center" class="bg-gray-200">
+                            <td colspan="2">
+                                Murojaat qiluvchi shaxs to'g'risida ma'lumot
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Talabgorga aloqaligi
+                            </td>
+                            <td>
+                                @Model.ClaimerType.Name
+                            </td>
+                        </tr>
+                        @if (Model.ClaimerTypeId != 4)
+                        {
+                            <tr>
+                                <td>
+                                    F.I.SH.
+                                </td>
+                                <td>
+                                    @Model.ParentName
+                                </td>
+                            </tr>
+                        }
+                        <tr style="text-align:center" class="bg-gray-200">
+                            <td colspan="2">
+                                Talabgor to'g'risida ma'lumot
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                F.I.SH.
+                            </td>
+                            <td>
+                                @Model.FullName
+                            </td>
+                        </tr>
+                        <tr>
+                            @if (Model.Version.HasValue && Model.Version == 3)
+                            {
+                                <td><p>JSHSHIR</p></td>
+                                <td>@Model.PINF</td>
+                            }
+                            else
+                            {
+                                <td><p>Hujjat</p></td>
+                                <td>
+                                    <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.PassportFile">
+                                        yuklash
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                Viloyat
+                            </td>
+                            <td>
+                                @Model.Region.NameUz
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tuman
+                            </td>
+                            <td>
+                                @Model.District.NameUz
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Yashash manzili
+                            </td>
+                            <td>
+                                @Model.Adress
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Telefon
+                            </td>
+                            <td>
+                                @Model.PhoneNumber
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email
+                            </td>
+                            <td>
+                                @Model.Email
+                            </td>
+                        </tr>
+                        <tr style="text-align:center" class="bg-gray-200">
+                            <td colspan="2">
+                                Xorijiy davlatlarda taʼlim olganlik toʼgʼrisidagi xujjatlarga aloqador maʼlumotlar
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Davlat
+                            </td>
+                            <td>
+                                @Model.Country.NameUz
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                OTM
+                            </td>
+                            <td>
+                                @Model.UniversityName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Talim bosqichi
+                            </td>
+                            <td>
+                                @Model.StudyStep.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Talim shakli
+                            </td>
+                            <td>
+                                @Model.StudyType.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ta'lim olganlik to'g'risidagi xujjat seriyasi va raqami
+                            </td>
+                            <td>
+                                @Model.DiplomSeria @Model.DiplomNumber
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Xujjat berilgan yili
+                            </td>
+                            <td>
+                                @Model.DiplomGetDate
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                O'qishga kirgan yili
+                            </td>
+                            <td>
+                                @Model.StudyStartYear
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                O'qishni tamomlaagan yili
+                            </td>
+                            <td>
+                                @Model.StudyEndYear
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Notarial tasdiqlangan tarjima
+                            </td>
+                            <td>
+                                @if (!(string.IsNullOrEmpty(Model.File1)))
+                                {
+                                    <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.File1">yuklash</a>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ta'lim olganlik to'g'risidagi xujjat
+                            </td>
+                            <td>
+                                @if (!(string.IsNullOrEmpty(Model.File2)))
+                                {
+                                    <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.File2">yuklash</a>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Appostil hujjat
+                            </td>
+                            <td>
+                                @if (!(string.IsNullOrEmpty(Model.AppostilFile)))
+                                {
+                                    <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.AppostilFile">yuklash</a>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6>Murojaatning javobi</h6>
+            </div>
+            <div class="card-body" style="padding:0px 0px 0px 0px">
+                <table class="table table-bordered" style="margin-bottom:0px">
+                    <tbody>
+                        <tr>
+                            <td width="30%">
+                                Murojaatning holati
+                            </td>
+                            <td width="70%">
+                                @Model.ClaimStatus.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Biriktirilgan fayllar
+                            </td>
+                            <td>
+                                <a href="~/Files/@Model.AnswerFile">@Model.AnswerFile</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Malumotnoma qayd etilgan raqam
+                            </td>
+                            <td>
+                                @Model.refer_registr_numb
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ta'lim muassasi nomi
+                            </td>
+                            <td>
+                                @Model.name_institution_gos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hujjat berilgan sana
+                            </td>
+                            <td>
+                                @Model.graduation_year
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hujjat berilgan davlat nomi
+                            </td>
+                            <td>
+                                @Model.country_educated_gos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hujjat seriyasi (attestat, diplom, sertifikat)
+                            </td>
+                            <td>
+                                @Model.series_doc_diploma_gos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hujjat raqami (attestat, diplom, sertifikat)
+                            </td>
+                            <td>
+                                @Model.doc_number_diploma_gos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                XTB boshqarmasi boshligi
+                            </td>
+                            <td>
+                                @Model.name_head_education
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Reestr raqami
+                            </td>
+                            <td>
+                                @Model.registry_number
+                            </td>
+                        </tr>
+                    <tr>
+                        <td>
+                            Yopilgan sana
+                        </td>
+                        <td>
+                            @Model.AnswerDate
+                        </td>
+                    </tr>
+                    @if ((Model.StatusId == 3 || Model.StatusId == 4) && Model.Version.HasValue)
+                    {
+                        <tr>
+                            <td>Repo file</td>
+                            <td>
+                                <a href="/GetApi/download-repo?taskId=@Model.TaskId&version=@Model.Version"
+                                   target="_blank"
+                                   class="btn btn-primary">
+                                    Xulosani yuklash
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
