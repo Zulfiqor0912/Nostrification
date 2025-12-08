@@ -6,6 +6,6 @@ public interface IUserRepository
 {
     public Task<User?> GetUserByLoginAsync(string login);
     public Task<IEnumerable<User>> GetAllUsers();
-    public Task<User> GetUserById(User user);
+    public Task<User?> GetUserById(int id);
     public Task AddOrUpdateUser(User user);
 }

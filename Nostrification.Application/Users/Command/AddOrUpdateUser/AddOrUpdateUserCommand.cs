@@ -3,12 +3,12 @@ using Nostrification.Domain.Entities;
 
 namespace Nostrification.Application.Users.Command.AddOrUpdateUser;
 
-public class AddOrUpdateUserCommand : IRequest
+public class AddOrUpdateUserCommand(int id, string login, string fullname, string phonenumber, int regionId, int roleId) : IRequest
 {
-    public int Id { get; set; }
-    public string Login { get; set; }
-    public string Fullname { get; set; }
-    public string PhoneNumber { get; set; }
-    public virtual Region Region { get; set; }
-    public virtual Role Role { get; set; }
+    public int Id { get; set; } = id;
+    public string Login { get; set; } = login;
+    public string Fullname { get; set; } = fullname;
+    public string PhoneNumber { get; set; } = phonenumber;
+    public int RegionId { get; set; } = regionId;
+    public int RoleId { get; set; } = roleId;
 }

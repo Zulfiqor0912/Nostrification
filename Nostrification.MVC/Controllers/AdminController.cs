@@ -3,8 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
+using Nostrification.Application.Roles.Query;
+using Nostrification.Application.Users.Command.AddOrUpdateUser;
+using Nostrification.Application.Users.Dtos;
 using Nostrification.Application.Users.Queries.GetAllUsers;
+using Nostrification.Application.Users.Queries.GetUserById;
 using Nostrification.Domain.Entities;
+using Nostrification.MVC.Models.ViewModels;
 
 namespace Nostrification.MVC.Controllers;
 
@@ -53,10 +58,28 @@ public class AdminController(
         return View(await mediator.Send(new GetAllUsersQuery()));
     }
 
-    [HttpPost]
-    public Task<IActionResult> UserInfo(int id)
+    public async Task<IActionResult> UserInfo(int id)
     {
-        return RedirectToAction(nameof(Users));
+        var user = await mediator.Send(new GetUserByIdQuery(id));
+        if (id != 0 || user != null) return RedirectToAction("Users");
+
+        var roles = await mediator.Send(new GetAllRolesQuery());
+        return View(user);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UserInfo(UserInfoViewModel viewModel)
+    {
+        var command = new AddOrUpdateUserCommand(
+            viewModel.Id,
+            viewModel.Login,
+            viewModel.Fullname,
+            viewModel.PhoneNumber,
+            viewModel.RegionId,
+            viewModel.RoleId);
+
+        await mediator.Send(command);
+        return RedirectToAction(nameof(User));
     }
 
 }

@@ -23,11 +23,12 @@ public class UserRepository(NostrificationDbContext dbContext) : IUserRepository
         return users;
     }
 
-    public async Task<User> GetUserById(User user)
+    public async Task<User?> GetUserById(int id)
     {
-        await dbContext.Users.AddAsync(user);
-        await dbContext.SaveChangesAsync();
-        return user;
+        return await dbContext.Users
+                .Include(x => x.Region)
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<User?> GetUserByLoginAsync(string login)

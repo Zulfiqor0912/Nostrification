@@ -12,8 +12,6 @@ public class UserProfile : Profile
             .ForMember(does => does.Region, opt => opt.MapFrom(src => src.Region))
             .ForMember(does => does.Role, opt => opt.MapFrom(src => src.Role));
 
-        CreateMap<AddOrUpdateUserCommand, User>()
-            .ForMember(does => does.Role, opt => opt.MapFrom(src => src.Role))
-            .ForMember(does => does.Region, opt => opt.MapFrom(src => src.Region));
+        CreateMap<AddOrUpdateUserCommand, User>();
     }
 }
