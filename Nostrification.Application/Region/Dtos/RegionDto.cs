@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Nostrification.Application.Extension.Region.Dtos;
+﻿
+namespace Nostrification.Application.Region.Dtos;
 
 public class RegionDto
 {

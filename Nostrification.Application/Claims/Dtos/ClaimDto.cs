@@ -1,6 +1,4 @@
 ﻿using Nostrification.Domain.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Nostrification.Application.Claims.Dtos;
 
 public class ClaimDto
@@ -36,8 +34,8 @@ public class ClaimDto
     public virtual ClaimerType ClaimerType { get; set; }
     public virtual ClaimStatus ClaimStatus { get; set; }
     public virtual Country Country { get; set; }
-    public virtual Region Region { get; set; }
-    public virtual Region District { get; set; }
+    public virtual Domain.Entities.Region Region { get; set; }
+    public virtual Domain.Entities.Region District { get; set; }
     public virtual StudyStep StudyStep { get; set; }
     public virtual StudyType StudyType { get; set; }
     //public string Status { get; set; }

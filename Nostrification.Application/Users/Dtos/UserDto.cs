@@ -11,6 +11,6 @@ public class UserDto
     public string PhoneNumber { get; set; }
     public int? RoleId { get; set; }
     public long? ChatId { get; set; }
-    public virtual Region Region { get; set; }
+    public virtual Domain.Entities.Region Region { get; set; }
     public virtual Role Role { get; set; }
 }

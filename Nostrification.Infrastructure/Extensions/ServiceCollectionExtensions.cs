@@ -19,5 +19,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IClaimRepository, ClaimRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IOtherRepository, OtherRepository>();
     }
 }

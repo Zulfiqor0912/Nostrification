@@ -1,18 +1,22 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
+using Nostrification.Application.Region.Queries.GetAllRegions;
 using Nostrification.Application.Roles.Query;
 using Nostrification.Application.Users.Command.AddOrUpdateUser;
-using Nostrification.Application.Users.Dtos;
 using Nostrification.Application.Users.Queries.GetAllUsers;
 using Nostrification.Application.Users.Queries.GetUserById;
+using Nostrification.Application.Users.Queries.GetUserByLogin;
 using Nostrification.Domain.Entities;
 using Nostrification.MVC.Models.ViewModels;
 
 namespace Nostrification.MVC.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class AdminController(
     IMediator mediator) : BaseController
 {
@@ -63,7 +67,12 @@ public class AdminController(
         var user = await mediator.Send(new GetUserByIdQuery(id));
         if (id != 0 || user != null) return RedirectToAction("Users");
 
+        var regions = await mediator.Send(new GetAllRegionsQuery());
         var roles = await mediator.Send(new GetAllRolesQuery());
+
+        ViewBag.Regions = new SelectList(regions, "Id", "NameUz", user.RegionId);
+        ViewBag.Roles = new SelectList(roles, "Id", "RoleName", user.RoleId);
+
         return View(user);
     }
 
@@ -80,6 +89,13 @@ public class AdminController(
 
         await mediator.Send(command);
         return RedirectToAction(nameof(User));
+    }
+
+    public async Task<IActionResult> Profile()
+    {
+        var username = User.Identity?.Name;
+        var userDto = await mediator.Send(new GetUserByLoginQuery(username));
+        return View(userDto);
     }
 
 }
