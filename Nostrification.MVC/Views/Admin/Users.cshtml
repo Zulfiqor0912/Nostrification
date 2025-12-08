@@ -1,0 +1,46 @@
+@model IEnumerable<Nostrification.Application.Users.Dtos.UserDto>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Foydalanuvchilar</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>F.I.SH.</th>
+                    <th>Telefon raqami</th>
+                    <th>XTB</th>
+                    <th>Rol</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a href="/Admin/UserInfo/@item.Id">@item.Id</a></td>
+                        <td>@item.Login</td>
+                        <td>@item.Fullname</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Region.NameUz</td>
+                        <td>@item.Role.Name</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+

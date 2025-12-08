@@ -1,0 +1,42 @@
+@model Nostrification.Application.Users.Dtos.UserDto
+@{
+    ViewBag.Title = "UserInfo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            Foydalanuvchi
+        </div>
+        <div class="card-body">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label>Login</label>
+                <input class="form-control" value="@Model.Login" readonly />
+            </div>
+            <div class="form-group">
+                <label>F.I.SH.</label>
+                <input class="form-control" value="@Model.Fullname" readonly />
+            </div>
+            <div class="form-group">
+                <label>Telefon raqami</label>
+                <input class="form-control" value="@Model.PhoneNumber" readonly />
+            </div>
+            <div class="form-group">
+                <label>Hududi</label>
+                @Html.DropDownListFor(m => m.RegionId, (SelectList)ViewBag.Regions,  new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Roli</label>
+                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.Roles, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <br />
+                <input type="submit" class="btn btn-primary" value="Saqlash" />
+                <a href="/Admin/Users/" class="btn btn-light border">Ortga</a>
+            </div>
+        </div>
+    </div>
+</form>

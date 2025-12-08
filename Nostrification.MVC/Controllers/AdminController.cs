@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
+using Nostrification.Application.Users.Queries.GetAllUsers;
 using Nostrification.Domain.Entities;
 
 namespace Nostrification.MVC.Controllers;
@@ -46,4 +47,16 @@ public class AdminController(
     {
         return View(await mediator.Send(new GetClaimByIdQuery(id)));
     }
+
+    public async Task<IActionResult> Users()
+    {
+        return View(await mediator.Send(new GetAllUsersQuery()));
+    }
+
+    [HttpPost]
+    public Task<IActionResult> UserInfo(int id)
+    {
+        return RedirectToAction(nameof(Users));
+    }
+
 }

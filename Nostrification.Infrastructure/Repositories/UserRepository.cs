@@ -7,6 +7,13 @@ namespace Nostrification.Infrastructure.Repositories;
 
 public class UserRepository(NostrificationDbContext dbContext) : IUserRepository
 {
+    public async Task AddOrUpdateUser(User user)
+    {
+        if (user.Id > 0) dbContext.Users.Update(user);
+        else dbContext.Users.Add(user);
+        await dbContext.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<User>> GetAllUsers()
     {
         var users = await dbContext.Users
@@ -14,6 +21,13 @@ public class UserRepository(NostrificationDbContext dbContext) : IUserRepository
             .Include(x => x.Role)
             .ToListAsync();
         return users;
+    }
+
+    public async Task<User> GetUserById(User user)
+    {
+        await dbContext.Users.AddAsync(user);
+        await dbContext.SaveChangesAsync();
+        return user;
     }
 
     public async Task<User?> GetUserByLoginAsync(string login)
