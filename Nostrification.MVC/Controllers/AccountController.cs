@@ -12,7 +12,7 @@ public class AccountController(IMediator mediator) : BaseController
 
     public async Task<IActionResult> DevLogin()
     {
-        var login = "test";
+        var login = "XTB";
         var user = await mediator.Send(new GetUserByLoginQuery(login));
 
         var claims = new List<Claim>

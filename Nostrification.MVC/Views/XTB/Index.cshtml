@@ -1,9 +1,5 @@
-﻿@using Nostrification.MVC.Models.ViewModels
-@model IndexStatViewModel;
-
-@{
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
+﻿@model Nostrification.MVC.Models.ViewModels.IndexStatViewModel
+@{ Layout = "~/Views/Shared/_LayoutXTB.cshtml"; }
 
 <div class="row">
     <div class="col-xl-3 col-md-6 mb-4">
@@ -141,9 +137,6 @@
                     <span class="mr-2">
                         <i class="fas fa-circle text-danger"></i> Rad etilgan
                     </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-black-50"></i> Bekor qilingan
-                    </span>
                 </div>
             </div>
         </div>
@@ -157,24 +150,25 @@
             <div class="card-body">
                 @try
                 {
-                    <h4 class="small font-weight-bold">Ota-onasi <span class="float-right">@(Model.Parents * 100 / Model.Total)%</span></h4>
+                    <h4 class="small font-weight-bold">Ota-onasi <span class="float-right">@(Model.Parents*100/Model.Total)%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: @(Model.Parents * 100 / Model.Total)%" aria-valuenow="@(Model.Parents * 100 / Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: @(Model.Parents*100/Model.Total)%" aria-valuenow="@(Model.Parents*100/Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Vasiy <span class="float-right">@(Model.Vasiy * 100 / Model.Total)%</span></h4>
+                    <h4 class="small font-weight-bold">Vasiy <span class="float-right">@(Model.Vasiy*100/Model.Total)%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: @(Model.Vasiy * 100 / Model.Total)%" aria-valuenow="@(Model.Vasiy * 100 / Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: @(Model.Vasiy*100/Model.Total)%" aria-valuenow="@(Model.Vasiy*100/Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Notarial ishonchnoma berilgan shaxs <span class="float-right">@(Model.Notarial * 100 / Model.Total)%</span></h4>
+                    <h4 class="small font-weight-bold">Notarial ishonchnoma berilgan shaxs <span class="float-right">@(Model.Notarial*100/Model.Total)%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.Notarial * 100 / Model.Total)%" aria-valuenow="@(Model.Notarial * 100 / Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: @(Model.Notarial*100/Model.Total)%" aria-valuenow="@(Model.Notarial*100/Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">O'zi <span class="float-right">@(Model.Self * 100 / Model.Total)%</span></h4>
+                    <h4 class="small font-weight-bold">O'zi <span class="float-right">@(Model.Self*100/Model.Total)%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: @(Model.Self * 100 / Model.Total)%" aria-valuenow="@(Model.Self * 100 / Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: @(Model.Self*100/Model.Total)%" aria-valuenow="@(Model.Self*100/Model.Total)" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 }
                 catch { }
+
             </div>
         </div>
     </div>

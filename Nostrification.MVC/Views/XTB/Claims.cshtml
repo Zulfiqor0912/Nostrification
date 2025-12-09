@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Nostrification.Application.Claims.Dtos.ClaimDto>
+@{
+    ViewBag.Title = "Claims";
+    Layout = "~/Views/Shared/_LayoutXTB.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Murojaatlar</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Murojaat raqami</th>
+                    <th>Foydalanuvchi</th>
+                    <th>XTB</th>
+                    <th>Murojaat qilingan sana</th>
+                    <th>Xolati</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a href="/XTB/ClaimDetails/@item.TaskId">@item.TaskId</a></td>
+                        <td>@item.FullName</td>
+                        <td>@item.Region.NameUz</td>
+                        <td>@item.CreateDate</td>
+                        <td>@item.ClaimStatus.Name</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>

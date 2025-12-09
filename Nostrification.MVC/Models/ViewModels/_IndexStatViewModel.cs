@@ -1,4 +1,4 @@
-﻿namespace Nostrification.Domain.Entities;
+﻿namespace Nostrification.MVC.Models.ViewModels;
 
 public class IndexStatViewModel
 {

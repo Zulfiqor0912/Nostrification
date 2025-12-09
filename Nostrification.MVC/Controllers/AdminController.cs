@@ -11,7 +11,6 @@ using Nostrification.Application.Users.Command.AddOrUpdateUser;
 using Nostrification.Application.Users.Queries.GetAllUsers;
 using Nostrification.Application.Users.Queries.GetUserById;
 using Nostrification.Application.Users.Queries.GetUserByLogin;
-using Nostrification.Domain.Entities;
 using Nostrification.MVC.Models.ViewModels;
 
 namespace Nostrification.MVC.Controllers;

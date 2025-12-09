@@ -6,6 +6,7 @@ using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaims;
 using Nostrification.Domain.Entities;
 using Nostrification.MVC.Models;
+using Nostrification.MVC.Models.ViewModels;
 
 namespace Nostrification.MVC.Controllers
 {
