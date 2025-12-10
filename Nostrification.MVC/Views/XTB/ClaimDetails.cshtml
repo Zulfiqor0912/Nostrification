@@ -1,0 +1,506 @@
+﻿@model Nostrification.Application.Claims.Dtos.ClaimDto;
+@{
+    ViewBag.Title = "ClaimDetaails";
+    Layout = "~/Views/Shared/_LayoutXTB.cshtml";
+}
+
+<a href="/XTB/Claims/" class="btn btn-primary" style="margin-bottom:20px">Murojaatlar sahifasi</a>
+
+<div class="row" style="margin-bottom:20px">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6>Murojaat haqida</h6>
+            </div>
+            <div class="card-body" style="padding:0px 0px 0px 0px">
+                <table class="table table-bordered" style="margin-bottom:0px">
+                    <tbody>
+                    <tr>
+                        <td width="20%">
+                            Murojaat raqami
+                        </td>
+                        <td width="80%">
+                            @Model.TaskId
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Murojaat qilingan sana
+                        </td>
+                        <td>
+                            @Model.CreateDate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ohirgi o'zgartirish
+                        </td>
+                        <td>
+                            @Model.UpdateDate
+                        </td>
+                    </tr>
+                    <tr style="text-align:center" class="bg-gray-200">
+                        <td colspan="2">
+                            Murojaat qiluvchi shaxs to'g'risida ma'lumot
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Talabgorga aloqaligi
+                        </td>
+                        <td>
+                            @Model.ClaimerType.Name
+                        </td>
+                    </tr>
+                    @if (Model.ClaimerTypeId != 4)
+                    {
+                        <tr>
+                            <td>
+                                F.I.SH.
+                            </td>
+                            <td>
+                                @Model.ParentName
+                            </td>
+                        </tr>
+                    }
+                    <tr style="text-align:center" class="bg-gray-200">
+                        <td colspan="2">
+                            Talabgor to'g'risida ma'lumot
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            F.I.SH.
+                        </td>
+                        <td>
+                            @Model.FullName
+                        </td>
+                    </tr>
+                    <tr>
+                        @if (Model.Version.HasValue && Model.Version == 3)
+                        {
+                            <td><p>JSHSHIR</p></td>
+                            <td>@Model.PINF</td>
+                        }
+                        else
+                        {
+                            <td><p>Hujjat</p></td>
+                            <td>
+                                <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.PassportFile">
+                                    yuklash
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>
+                            Viloyat
+                        </td>
+                        <td>
+                            @Model.Region.NameUz
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tuman
+                        </td>
+                        <td>
+                            @Model.District.NameUz
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Yashash manzili
+                        </td>
+                        <td>
+                            @Model.Adress
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Telefon
+                        </td>
+                        <td>
+                            @Model.PhoneNumber
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            @Model.Email
+                        </td>
+                    </tr>
+                    <tr style="text-align:center" class="bg-gray-200">
+                        <td colspan="2">
+                            Xorijiy davlatlarda taʼlim olganlik toʼgʼrisidagi xujjatlarga aloqador maʼlumotlar
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Davlat
+                        </td>
+                        <td>
+                            @Model.Country.NameUz
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            OTM
+                        </td>
+                        <td>
+                            @Model.UniversityName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Talim bosqichi
+                        </td>
+                        <td>
+                            @Model.StudyStep.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Talim shakli
+                        </td>
+                        <td>
+                            @Model.StudyType.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ta'lim olganlik to'g'risidagi xujjat seriyasi va raqami
+                        </td>
+                        <td>
+                            @Model.DiplomSeria @Model.DiplomNumber
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Xujjat berilgan yili
+                        </td>
+                        <td>
+                            @Model.DiplomGetDate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            O'qishga kirgan yili
+                        </td>
+                        <td>
+                            @Model.StudyStartYear
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            O'qishni tamomlaagan yili
+                        </td>
+                        <td>
+                            @Model.StudyEndYear
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Notarial tasdiqlangan tarjima
+                        </td>
+                        <td>
+                            @if (!(string.IsNullOrEmpty(Model.File1)))
+                            {
+                                <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.File1">yuklash</a>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ta'lim olganlik to'g'risidagi xujjat
+                        </td>
+                        <td>
+                            @if (!(string.IsNullOrEmpty(Model.File2)))
+                            {
+                                <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.File2">yuklash</a>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Appostil hujjat
+                        </td>
+                        <td>
+                            @if (!(string.IsNullOrEmpty(Model.AppostilFile)))
+                            {
+                                <a href="https://oldmy.gov.uz/ru/get-service-file/@Model.TaskId/@Model.AppostilFile">yuklash</a>
+                            }
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6>Murojaatning javobi</h6>
+            </div>
+            <div class="card-body" style="padding:0px 0px 0px 0px">
+                <table class="table table-bordered" style="margin-bottom:0px">
+                    <tbody>
+                    <tr>
+                        <td width="30%">
+                            Murojaatning holati
+                        </td>
+                        <td width="70%">
+                            @Model.ClaimStatus.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Biriktirilgan fayllar
+                        </td>
+                        <td>
+                            <a href="~/Files/@Model.AnswerFile">@Model.AnswerFile</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Malumotnoma qayd etilgan raqam
+                        </td>
+                        <td>
+                            @Model.refer_registr_numb
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ta'lim muassasi nomi
+                        </td>
+                        <td>
+                            @Model.name_institution_gos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Hujjat berilgan sana
+                        </td>
+                        <td>
+                            @Model.graduation_year
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Hujjat berilgan davlat nomi
+                        </td>
+                        <td>
+                            @Model.country_educated_gos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Hujjat seriyasi (attestat, diplom, sertifikat)
+                        </td>
+                        <td>
+                            @Model.series_doc_diploma_gos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Hujjat raqami (attestat, diplom, sertifikat)
+                        </td>
+                        <td>
+                            @Model.doc_number_diploma_gos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            XTB boshqarmasi boshligi
+                        </td>
+                        <td>
+                            @Model.name_head_education
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Reestr raqami
+                        </td>
+                        <td>
+                            @Model.registry_number
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Yopilgan sana
+                        </td>
+                        <td>
+                            @Model.AnswerDate
+                        </td>
+                    </tr>
+                    @if ((Model.StatusId == 3 || Model.StatusId == 4) && Model.Version.HasValue)
+                    {
+                        <tr>
+                            <td>Repo file</td>
+                            <td>
+                                <a href="/GetApi/download-repo?taskId=@Model.TaskId&version=@Model.Version"
+                                   target="_blank"
+                                   class="btn btn-primary">
+                                    Xulosani yuklash
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        @if (Model.StatusId < 3)
+        {
+            <div>
+                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#Modal1">Rad qilish</a>
+                <a class="btn btn-success text-white" data-toggle="modal" data-target="#Modal2">Hulosa berish</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a class="btn btn-danger text-white disabled" data-toggle="modal" data-target="#Modal1">Rad qilish</a>
+                <a class="btn btn-success text-white disabled" data-toggle="modal" data-target="#Modal2">Hulosa berish</a>
+            </div>
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm("Reject", "XTB", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rad etish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" value="@Model.TaskId" name="TaskId" />
+
+                    <div class="form-group">
+                        <label>XTB boshqarmasi boshligi</label>
+                        <input type="text" class="form-control" name="name_head_education" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Rad etish sababi</label>
+                        <textarea class="form-control" name="rejection_reason" maxlength="250" rows="4" required></textarea>
+                        <small class="form-text text-muted">Maksimal 250 ta belgi kiritish mumkin.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Rad etish hulosasini yuklang (PDF formatda)</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFileReject" name="answerFile" accept="application/pdf" required />
+                            <label class="custom-file-label" for="customFileReject" data-browse="Faylni tanlang"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ortga</button>
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("Accept", "XTB", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Qabul qilish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="@Model.TaskId" name="TaskId" />
+                    <div class="form-group">
+                        <label>Ta'lim muassasi nomi</label>
+                        <input type="text" class="form-control" name="name_institution_gos" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Hujjat berilgan sana</label>
+                        <input type="text" class="form-control" name="graduation_year" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Hujjat berilgan davlat nomi</label>
+                        <input type="text" class="form-control" name="country_educated_gos" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Hujjat seriyasi (attestat, diplom, sertifikat)</label>
+                        <input type="text" class="form-control" name="series_doc_diploma_gos" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Hujjat raqami (attestat, diplom, sertifikat)</label>
+                        <input type="text" class="form-control" name="doc_number_diploma_gos" required />
+                    </div>
+                    <div class="form-group">
+                        <label>XTB boshqarmasi boshligi</label>
+                        <input type="text" class="form-control" name="name_head_education" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Reestr raqami</label>
+                        <input type="text" class="form-control" name="registry_number" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Xulosani yuklang (PDF formatda)</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFileLangHTML" name="answerFile" accept="application/pdf" required />
+                            <label class="custom-file-label" for="customFileLangHTML" data-browse="Faylni tanlang"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ortga</button>
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@* <script> *@
+@*     $(function () { *@
+@*         if (typeof bsCustomFileInput !== "undefined") { *@
+@*             bsCustomFileInput.init(); *@
+@*         } *@
+@* *@
+@*         $(document).on("change", ".custom-file-input", function () { *@
+@*             var fileName = $(this).val().split("\\").pop(); *@
+@*             $(this).siblings(".custom-file-label").addClass("selected").html(fileName); *@
+@*         }); *@
+@* *@
+@*         $(document).on("submit", "form[action*='Reject']", function (e) { *@
+@*             var reason = $("#rejection_reason").val().trim(); *@
+@*             if (reason === "") { *@
+@*                 e.preventDefault(); *@
+@*                 alert("Rad etish sababi majburiy!"); *@
+@*                 $("#rejection_reason").focus(); *@
+@*                 return false; *@
+@*             } *@
+@*         }); *@
+@*     }); *@
+@* </script> *@
+
+
+<script>
+    $(document).ready(function () {
+        bsCustomFileInput.init()
+    })
+</script>
+<script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

@@ -15,6 +15,7 @@ public class NostrificationDbContext(DbContextOptions<NostrificationDbContext> o
     public DbSet<StudyStep> StudySteps { get; set; }
     public DbSet<StudyType> StudyTypes { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Log> Logs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

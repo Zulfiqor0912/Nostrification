@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
+using Nostrification.Application.Logs.Command.AddOrUpdate;
+using Nostrification.Application.Users.Command.AddOrUpdateUser;
 using Nostrification.Application.Users.Queries.GetUserByLogin;
 using Nostrification.MVC.Models.ViewModels;
 
@@ -58,9 +60,19 @@ public class XTBController(IMediator mediator) : BaseController
         if (id == 0 || claim is null || claim.RegionId != user.RegionId) return RedirectToAction("Claims");
 
         if (claim.StatusId == 1)
-        {
+            await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Ko'rib chiqilmoqda", DateTime.Now));
 
-        }
+        claim.StatusId = 2;
+        await mediator.Send(new AddOrUpdateUserCommand(
+            claim.Id, 
+            user.Login, 
+            user.Fullname, 
+            user.PhoneNumber, 
+            user.RegionId, 
+            user.RoleId));
 
+        claim = await mediator.Send(new GetClaimByIdQuery(id));
+
+        return View(claim);
     }
 }

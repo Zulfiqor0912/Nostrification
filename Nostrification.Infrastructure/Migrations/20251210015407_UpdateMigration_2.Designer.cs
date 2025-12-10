@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nostrification.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Nostrification.Infrastructure.Persistence;
 namespace Nostrification.Infrastructure.Migrations
 {
     [DbContext(typeof(NostrificationDbContext))]
-    partial class NostrificationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251210015407_UpdateMigration_2")]
+    partial class UpdateMigration_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
