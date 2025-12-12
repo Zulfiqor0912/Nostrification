@@ -7,6 +7,13 @@ namespace Nostrification.Infrastructure.Repositories;
 
 public class ClaimRepository(NostrificationDbContext dbContext) : IClaimRepository
 {
+    public async Task AddOrUpdateClaimAsync(Claim claim)
+    {
+        if (claim.Id > 0) dbContext.Entry(claim);
+        else await dbContext.Claims.AddAsync(claim);
+        await dbContext.SaveChangesAsync();
+    }
+
     public async Task<Claim?> GetClaimByIdAsync(int id)
     {
         return await dbContext.Claims

@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
 using Nostrification.Application.Logs.Command.AddOrUpdate;
+using Nostrification.Application.MyGov.Commands.SendStatusReject;
+using Nostrification.Application.MyGov.Queries.SendStatus;
 using Nostrification.Application.Users.Command.AddOrUpdateUser;
 using Nostrification.Application.Users.Queries.GetUserByLogin;
 using Nostrification.MVC.Models.ViewModels;
@@ -12,7 +15,7 @@ using Nostrification.MVC.Models.ViewModels;
 namespace Nostrification.MVC.Controllers;
 
 [Authorize(Roles = "Hudud XTB")]
-public class XTBController(IMediator mediator) : BaseController
+public class XTBController(IMediator mediator, IWebHostEnvironment environment) : BaseController
 {
     public async Task<IActionResult> Index()
     {
@@ -60,19 +63,74 @@ public class XTBController(IMediator mediator) : BaseController
         if (id == 0 || claim is null || claim.RegionId != user.RegionId) return RedirectToAction("Claims");
 
         if (claim.StatusId == 1)
-            await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Ko'rib chiqilmoqda", DateTime.Now));
+        {
+            var version = (claim.Version.HasValue && claim.Version == 3) ? "v3" : "v2";
+            if (await mediator.Send(new SendStatusGetCommand(claim.TaskId, version)))
+            {
+                claim.StatusId = 2;
 
-        claim.StatusId = 2;
-        await mediator.Send(new AddOrUpdateUserCommand(
-            claim.Id, 
-            user.Login, 
-            user.Fullname, 
-            user.PhoneNumber, 
-            user.RegionId, 
-            user.RoleId));
+                await mediator.Send(new AddOrUpdateLogCommand(
+                    claim.TaskId, 
+                    user.Login, 
+                    "Ko'rib chiqilmoqda", 
+                    DateTime.Now));
+
+                await mediator.Send(new AddOrUpdateUserCommand(
+                    claim.Id,
+                    user.Login,
+                    user.Fullname,
+                    user.PhoneNumber,
+                    user.RegionId,
+                    user.RoleId));
+            }
+        }
 
         claim = await mediator.Send(new GetClaimByIdQuery(id));
 
         return View(claim);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Reject([FromForm] ClaimDto updateClaim, IFormFile answerFile)
+    {
+        var claim = await mediator.Send(new GetClaimByIdQuery(updateClaim.TaskId));
+        if (claim.StatusId is 3 or 4) return  RedirectToAction("Claims");
+
+        claim.rejection_reason = updateClaim.rejection_reason;
+        claim.name_head_education = updateClaim.name_head_education;
+        if (answerFile.Length > 0)
+        {
+            var uploadFile = Path.Combine(environment.ContentRootPath, "Files");
+            Directory.CreateDirectory(uploadFile);
+
+            var fileName = $"{claim.TaskId}_{Path.GetFileName(answerFile.FileName)}";
+            var filePath = Path.Combine(uploadFile, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create)) await answerFile.CopyToAsync(stream);
+            claim.AnswerFile = fileName;
+        }
+
+        var username = User?.Identity?.Name;
+        var user = await mediator.Send(new GetUserByLoginQuery(username));
+
+        var fullFilePath = Path.Combine(environment.ContentRootPath, "Files", claim.AnswerFile);
+        var bytes = await System.IO.File.ReadAllBytesAsync(fullFilePath);
+        var fileBase64 = Convert.ToBase64String(bytes);
+
+        var version = (claim.Version.HasValue && claim.Version == 3) ? "v2" : "v3";
+
+        if (await mediator.Send(new SendStatusRejectCommad
+        {
+            dto = claim,
+            fileString = fullFilePath,
+            version = version,
+        }))
+        {
+            
+            claim.StatusId = 4;
+            claim.AnswerDate = DateTime.Now;
+            await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Xulosa yuklandi", DateTime.Now));
+            await mediator.Send(new AddOrUpda)
+        }
     }
 }

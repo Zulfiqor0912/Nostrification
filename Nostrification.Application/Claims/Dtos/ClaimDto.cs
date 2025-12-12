@@ -56,7 +56,7 @@ public class ClaimDto
     public string? name_head_education { get; set; }
     public string? registry_number { get; set; }
     //public string? user_type { get; set; }
-    //public string? rejection_reason { get; set; }
+    public string? rejection_reason { get; set; }
     public string? PINF { get; set; }
     public int? Version { get; set; }
 }

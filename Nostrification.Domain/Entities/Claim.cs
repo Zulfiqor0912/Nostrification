@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Emit;
 
 namespace Nostrification.Domain.Entities;
 
@@ -30,6 +31,12 @@ public class Claim
     public string? File2 { get; set; }
     public string? AppostilFile { get; set; }
     public int? StatusId { get; set; }
+    //-------> Claim.StatusId <---------- 
+    //(1, 'Yangi'),                   -- Yangi ariza
+    //(2, 'Korib chiqilmoqda'),       -- Ishlanyapti
+    //(3, 'Ijobiy hal qilindi'),      -- Qabul qilindi
+    //(4, 'Rad etildi'),              -- Rad etildi
+    //(5, 'Bekor qilindi');           -- Anulirovanniy
     public string? AnswerFile { get; set; }
     public string? AnswerComment { get; set; }
     public DateTime? AnswerDate { get; set; }

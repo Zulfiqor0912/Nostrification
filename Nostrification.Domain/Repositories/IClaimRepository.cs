@@ -6,4 +6,5 @@ public interface IClaimRepository
 {
     public Task<IEnumerable<Claim>> GetClaimsAsyn();
     public Task<Claim?> GetClaimByIdAsync(int  id);
+    public Task AddOrUpdateClaimAsync(Claim claim);
 }
