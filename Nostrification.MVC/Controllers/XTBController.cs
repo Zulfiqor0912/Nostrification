@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Nostrification.Application.Claims.Commands.AddOrUpdateClaim;
 using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
@@ -126,11 +127,20 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
             version = version,
         }))
         {
-            
+
             claim.StatusId = 4;
             claim.AnswerDate = DateTime.Now;
             await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Xulosa yuklandi", DateTime.Now));
-            await mediator.Send(new AddOrUpda)
+            await mediator.Send(new AddOrUpdateClaimCommand { createClaim = claim });
         }
+
+        return RedirectToAction("Claims");
     }
+
+    [HttpPost]
+    public Task<IActionResult> Accept([FromForm] ClaimDto claim, IFormFile answerFile)
+    {
+        
+    }
+
 }
