@@ -52,7 +52,7 @@ public class ClaimDto
     public string? country_educated_gos { get; set; }
     public string? series_doc_diploma_gos { get; set; }
     public string? doc_number_diploma_gos { get; set; }
-    //public string? head_organization { get; set; }
+    public string? head_organization { get; set; }
     public string? name_head_education { get; set; }
     public string? registry_number { get; set; }
     //public string? user_type { get; set; }

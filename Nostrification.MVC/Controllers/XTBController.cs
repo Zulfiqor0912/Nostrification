@@ -7,6 +7,7 @@ using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
 using Nostrification.Application.Logs.Command.AddOrUpdate;
+using Nostrification.Application.MyGov.Commands.SendStatusAccept;
 using Nostrification.Application.MyGov.Commands.SendStatusReject;
 using Nostrification.Application.MyGov.Queries.SendStatus;
 using Nostrification.Application.Users.Command.AddOrUpdateUser;
@@ -138,9 +139,54 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
     }
 
     [HttpPost]
-    public Task<IActionResult> Accept([FromForm] ClaimDto claim, IFormFile answerFile)
+    public async Task<IActionResult> Accept([FromForm] ClaimDto claimDto, IFormFile answerFile)
     {
-        
+        var claim = await mediator.Send(new GetClaimByIdQuery(claimDto.TaskId));
+        if (claim.StatusId == 3 || claim.StatusId == 0)
+            return RedirectToAction("Claims");
+
+        if (answerFile.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(environment.ContentRootPath, "Files");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{claim.TaskId}_{Path.GetFileName(answerFile.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await answerFile.CopyToAsync(stream);
+            }
+
+            claim.AnswerFile = fileName;
+        }
+
+        var username = User?.Identity?.Name;
+        var user = await mediator.Send(new GetUserByLoginQuery(username));
+
+        claim.StatusId = 3;
+        claim.refer_registr_numb = GetReferNumber(claim.Id);
+        claim.name_institution_gos = claimDto.name_institution_gos;
+        claim.graduation_year = claimDto.graduation_year;
+        claim.country_educated_gos = claimDto?.country_educated_gos;
+        claim.series_doc_diploma_gos = claimDto?.series_doc_diploma_gos;
+        claim.doc_number_diploma_gos = claimDto?.doc_number_diploma_gos;
+        claim.name_head_education = claimDto?.name_head_education;
+        claim.registry_number = claimDto?.registry_number;
+        claim.head_organization = user.Region.XtbName;
+        claim.AnswerDate = DateTime.Now;
+
+        var fileFullPath = Path.Combine(environment.ContentRootPath, "Files", claim.AnswerFile);
+        var bytes = await System.IO.File.ReadAllBytesAsync(fileFullPath);
+        var fileBase64 = Convert.ToBase64String(bytes);
+        var version = (claim.Version.HasValue && claim.Version == 3) ? "v3" : "v2";
+
+        if (await mediator.Send(new SendStatusAcceptCommand(taskId: claim.TaskId, fileBase64: fileBase64, version: version)))
+        {
+            await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, "Xulosa Yuklandi", user.Login, DateTime.Now));
+
+            if (a)
+        }
     }
 
 }
