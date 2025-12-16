@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Nostrification.Application.Claims.Commands.AddOrUpdateClaim;
 using Nostrification.Application.Claims.Dtos;
 using Nostrification.Application.Claims.Queries.GetClaimById;
 using Nostrification.Application.Claims.Queries.GetClaims;
 using Nostrification.Application.Logs.Command.AddOrUpdate;
+using Nostrification.Application.MyGov.Commands.SendCertificateStatus;
 using Nostrification.Application.MyGov.Commands.SendStatusAccept;
 using Nostrification.Application.MyGov.Commands.SendStatusReject;
 using Nostrification.Application.MyGov.Queries.SendStatus;
@@ -27,17 +27,17 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
 
         var model = new IndexStatViewModel
         {
-            Total = claims.Count,
-            Open = claims.Where(x => x.StatusId == 2).Count(),
-            Accept = claims.Where(x => x.StatusId == 3).Count(),
-            Reject = claims.Where(x => x.StatusId == 4).Count(),
-            Anullirovanniy = claims.Where(x => x.StatusId == 5).Count(),
-            New = claims.Where(x => x.StatusId == 1).Count(),
+            Total = claims.Where(x => x.RegionId == user.RegionId).Count(), 
+            Open = claims.Where(x => x.StatusId == 2 && x.RegionId == user.RegionId).Count(),
+            Accept = claims.Where(x => x.StatusId == 3 && x.RegionId == user.RegionId).Count(),
+            Reject = claims.Where(x => x.StatusId == 4 && x.RegionId == user.RegionId).Count(),
+            Anullirovanniy = claims.Where(x => x.StatusId == 5 && x.RegionId == user.RegionId).Count(),
+            New = claims.Where(x => x.StatusId == 1 && x.RegionId == user.RegionId).Count(),
             Overdue = claims.Where(x => x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3).Count(),
-            Self = claims.Where(x => x.ClaimerTypeId == 4).Count(),
-            Parents = claims.Where(x => x.ClaimerTypeId == 1).Count(),
-            Notarial = claims.Where(x => x.ClaimerTypeId == 3).Count(),
-            Vasiy = claims.Where(x => x.ClaimerTypeId == 2).Count()
+            Self = claims.Where(x => x.ClaimerTypeId == 4 && x.RegionId == user.RegionId).Count(),
+            Parents = claims.Where(x => x.ClaimerTypeId == 1 && x.RegionId == user.RegionId).Count(),
+            Notarial = claims.Where(x => x.ClaimerTypeId == 3 && x.RegionId == user.RegionId).Count(),
+            Vasiy = claims.Where(x => x.ClaimerTypeId == 2 && x.RegionId == user.RegionId).Count()
         };
 
         return View(model);
@@ -48,12 +48,12 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
         var username = User.Identity?.Name;
         var user = await mediator.Send(new GetUserByLoginQuery(username!));
         var claims = await mediator.Send(new GetAllClaimsQuery());
-        if (id == null)
-            return View(claims);
+        if (id is null)
+            return View(claims.Where(x => x.RegionId == user.RegionId));
         else if (id == 6)
-            return View(claims.Where(x => x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3));
+            return View(claims.Where(x => x.RegionId == user.RegionId && x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3));
         else
-            return View(claims.Where(x => x.StatusId == id));
+            return View(claims.Where(x => x.RegionId == user.RegionId && x.StatusId == id));
     }
 
     public async Task<IActionResult> ClaimDetails(int id)
@@ -132,7 +132,7 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
             claim.StatusId = 4;
             claim.AnswerDate = DateTime.Now;
             await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Xulosa yuklandi", DateTime.Now));
-            await mediator.Send(new AddOrUpdateClaimCommand { createClaim = claim });
+            await mediator.Send(new AddOrUpdateClaimCommand(claim));
         }
 
         return RedirectToAction("Claims");
@@ -185,8 +185,28 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
         {
             await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, "Xulosa Yuklandi", user.Login, DateTime.Now));
 
-            if (a)
+            if (await mediator.Send(new SendCertificateStatusCommand{ dto = claim, Version = version}))
+            {
+                await mediator.Send(new AddOrUpdateLogCommand(claim.TaskId, user.Login, "Ma'lumotnoma shakllantirildi", DateTime.Now));
+                await mediator.Send(new AddOrUpdateClaimCommand(claim));
+            }
         }
+        return RedirectToAction("Claims");
+    }
+
+    private string GetReferNumber(int taskId)
+    {
+        string num = taskId.ToString();
+        while (num.Length < 7)
+            num = '0' + num;
+        return 'A' + num;
+    }
+
+    public async Task<IActionResult> Profile()
+    {
+        var username = User?.Identity?.Name;
+        var user = await mediator.Send(new GetUserByLoginQuery(username));
+        return View(user);
     }
 
 }

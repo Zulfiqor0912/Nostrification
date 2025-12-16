@@ -1,0 +1,35 @@
+﻿@model Nostrification.Application.Users.Dtos.UserDto;
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutXTB.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Foydalanuvchi
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="form-group">
+            <label>Login</label>
+            <input class="form-control" value="@Model.Login" readonly />
+        </div>
+        <div class="form-group">
+            <label>F.I.SH.</label>
+            <input class="form-control" value="@Model.Fullname" readonly />
+        </div>
+        <div class="form-group">
+            <label>Telefon raqami</label>
+            <input class="form-control" value="@Model.PhoneNumber" readonly />
+        </div>
+        <div class="form-group">
+
+            <label>Hududi</label>
+            <input class="form-control" value="@Model.Region.NameUz" readonly />
+        </div>
+        <div class="form-group">
+            <label>Roli</label>
+            <input class="form-control" value="@Model.Role.Name" readonly />
+        </div>
+    </div>
+</div>
