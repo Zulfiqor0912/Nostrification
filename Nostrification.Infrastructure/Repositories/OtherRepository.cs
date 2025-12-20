@@ -24,6 +24,16 @@ public class OtherRepository(NostrificationDbContext dbContext) : IOtherReposito
         return await dbContext.Roles.ToListAsync();
     }
 
+    public async Task<IEnumerable<Country>> GetCountries()
+    {
+        return await dbContext.Countries.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Region>> GetDistricts(int parentId)
+    {
+        return await dbContext.Regions.Where(x => x.ParentId == parentId).ToListAsync();
+    }
+
     public async Task<Region?> GetRegionById(int? id)
     {
         return await dbContext.Regions
@@ -34,5 +44,15 @@ public class OtherRepository(NostrificationDbContext dbContext) : IOtherReposito
     {
         return await dbContext.Roles
             .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<IEnumerable<StudyStep>> GetStudySteps()
+    {
+        return await dbContext.StudySteps.ToListAsync();
+    }
+
+    public async Task<IEnumerable<StudyType>> GetStudyTypes()
+    {
+        return await dbContext.StudyTypes.ToListAsync();
     }
 }

@@ -9,7 +9,9 @@ namespace Nostrification.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructure(
+        this IServiceCollection services, 
+        IConfiguration configuration)
     {
         var connectionstring = configuration.GetConnectionString("LocalConnectionString");
         services
