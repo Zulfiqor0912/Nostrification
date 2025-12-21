@@ -33,10 +33,10 @@ public class ClaimDto
     public DateTime? AnswerDate { get; set; }
     public virtual ClaimerType ClaimerType { get; set; }
     public virtual ClaimStatus ClaimStatus { get; set; }
-    public virtual Country Country { get; set; }
+    public virtual Domain.Entities.Country Country { get; set; }
     public virtual Domain.Entities.Region Region { get; set; }
     public virtual Domain.Entities.Region District { get; set; }
-    public virtual StudyStep StudyStep { get; set; }
+    public virtual Domain.Entities.StudyStep StudyStep { get; set; }
     public virtual StudyType StudyType { get; set; }
     //public string Status { get; set; }
     public DateTime? CreateDate { get; set; }

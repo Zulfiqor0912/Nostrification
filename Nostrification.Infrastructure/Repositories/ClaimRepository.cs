@@ -29,8 +29,7 @@ public class ClaimRepository(NostrificationDbContext dbContext) : IClaimReposito
 
     public async Task<IEnumerable<Claim>> GetClaimsAsyn()
     {
-        var claims = await dbContext.Claims
-            .Where(c => c.StatusId != 5) // soft delete 
+        var claims = await dbContext.Claims 
             .Include(x => x.Region)
             .Include(x => x.ClaimStatus)
             .ToListAsync();

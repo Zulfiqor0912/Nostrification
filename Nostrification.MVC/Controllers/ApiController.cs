@@ -9,10 +9,11 @@ using Nostrification.Domain.Repositories;
 using System.ComponentModel.Design;
 using Nostrification.Application.StudyStep.Queries;
 using Nostrification.Application.StudyTypes.Queries;
+using Nostrification.Application.MyGov.Commands.DownloadRepo;
 
 namespace Nostrification.MVC.Controllers;
 
-[Route("[controller]")]
+//[Route("[controller]")]
 public class ApiController(
     IOtherRepository otherRepository,
     IMyGovRepository myGovRepository,
@@ -39,5 +40,24 @@ public class ApiController(
     public async Task<IActionResult> GetStudyTypes()
         => Ok((await mediator.Send(new GetStudyTypesQueries())).Select(s => new { s.Id, s.Name }));
 
+    [HttpGet("download-repo")]
+    public async Task<IActionResult> DownloadRepo(int taskId, int version)
+    {
+        //try
+        //{
+        //    var claimVersion = "v2";
+        //    if (version == 3) claimVersion = "v3";
+        //    var (fileBytes, fileName) = await mediator.Send(new DownloadRepoCommand(taskId, claimVersion));
+        //    return File(fileBytes, "application/pdf", fileName);
+        //}
+        //catch (Exception ex) 
+        //{
+        //    return BadRequest(ex.Message);
+        //}
 
+        var claimVersion = "v2";
+        if (version == 3) claimVersion = "v3";
+        var (fileBytes, fileName) = await mediator.Send(new DownloadRepoCommand(taskId, claimVersion));
+        return File(fileBytes, "application/pdf", fileName);
+    }
 }

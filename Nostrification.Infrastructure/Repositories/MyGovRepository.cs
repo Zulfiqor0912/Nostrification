@@ -3,12 +3,54 @@ using Nostrification.Domain.Entities;
 using Nostrification.Domain.Entities.MyGov;
 using Nostrification.Domain.Repositories;
 using System.Text;
+using System.Text.Json;
 
 namespace Nostrification.Infrastructure.Repositories;
 
 public class MyGovRepository(IOptions<MyGovSettings> options) : IMyGovRepository
 {
     private readonly MyGovSettings _settings = options.Value;
+
+    public async Task<(byte[] fileBytes, string fileName)> GetRepoFileAsunc(int taskId, string version = "v2")
+    {
+        var secondUrl = version == "v3" ? _settings.ThirdUrl : _settings.SecondUrl;
+        var url = $"{_settings.BaseUri}/{secondUrl}/rest-api/get-repo-list?id={taskId}";
+
+        var credintials = Convert.ToBase64String(
+            Encoding.GetEncoding("ISO-8859-1")
+                .GetBytes($"{_settings.UserName}:{_settings.Password}")
+            );
+
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credintials);
+
+        var listResponse = await httpClient.GetAsync(url);
+        listResponse.EnsureSuccessStatusCode();
+
+        var listJson = await listResponse.Content.ReadAsStringAsync();
+        var repoList = JsonSerializer.Deserialize<List<MyGovRepoList>>(listJson);
+
+        //if (repoList is null || repoList.Count == 0)
+        //    throw new Exception("RepoList bo'sh");
+
+        var guid = repoList[0].Guid;
+
+        var fileUrl = $"{_settings.BaseUri}/{secondUrl}/rest-api/get-repo?guid={guid}";
+        var fileResponse = await httpClient.GetAsync(fileUrl);
+        fileResponse.EnsureSuccessStatusCode();
+
+        var fileJson = await fileResponse.Content.ReadAsStringAsync();
+        var fileInfo = JsonSerializer.Deserialize<MyGovRepoFile>(fileJson);
+
+        //if (fileInfo == null || string.IsNullOrEmpty(fileInfo.file))
+        //    throw new Exception("Fayl topilmadi yoki bo‘sh.");
+
+        byte[] fileBytes = Convert.FromBase64String(fileInfo!.File);
+        string fileName = $"xulosa_{taskId}.{fileInfo.Ext}";
+
+        return (fileBytes, fileName);
+    }
 
     public async Task<bool> SendCertificateStatusAsync(Claim claim, string version = "v2")
     {
