@@ -32,6 +32,7 @@ public class ClaimRepository(NostrificationDbContext dbContext) : IClaimReposito
         var claims = await dbContext.Claims 
             .Include(x => x.Region)
             .Include(x => x.ClaimStatus)
+            .Include(x => x.ClaimerType)
             .ToListAsync();
         return claims;
     }

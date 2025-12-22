@@ -33,7 +33,7 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
             Reject = claims.Where(x => x.StatusId == 4 && x.RegionId == user.RegionId).Count(),
             Anullirovanniy = claims.Where(x => x.StatusId == 5 && x.RegionId == user.RegionId).Count(),
             New = claims.Where(x => x.StatusId == 1 && x.RegionId == user.RegionId).Count(),
-            Overdue = claims.Where(x => x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3).Count(),
+            Overdue = claims.Where(x => x.CreateDate < DateTime.Now.AddDays(-5) && x.StatusId < 3 && x.RegionId == user.RegionId).Count(),
             Self = claims.Where(x => x.ClaimerTypeId == 4 && x.RegionId == user.RegionId).Count(),
             Parents = claims.Where(x => x.ClaimerTypeId == 1 && x.RegionId == user.RegionId).Count(),
             Notarial = claims.Where(x => x.ClaimerTypeId == 3 && x.RegionId == user.RegionId).Count(),
@@ -77,13 +77,7 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
                     "Ko'rib chiqilmoqda", 
                     DateTime.Now));
 
-                await mediator.Send(new AddOrUpdateUserCommand(
-                    claim.Id,
-                    user.Login,
-                    user.Fullname,
-                    user.PhoneNumber,
-                    user.RegionId,
-                    user.RoleId));
+                await mediator.Send(new AddOrUpdateClaimCommand(claim));
             }
         }
 

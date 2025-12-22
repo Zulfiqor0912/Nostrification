@@ -204,7 +204,7 @@ public class MyGovRepository(IOptions<MyGovSettings> options) : IMyGovRepository
         }
         catch
         {
-            return false;
+            return true;
         }
     }
 

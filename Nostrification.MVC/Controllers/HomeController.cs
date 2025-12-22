@@ -17,7 +17,7 @@ namespace Nostrification.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var claimsDto =(await mediator.Send(new GetAllClaimsQuery())) ?? new List<ClaimDto>();
+            var claimsDto = (await mediator.Send(new GetAllClaimsQuery())) ?? new List<ClaimDto>();
             var totalCount = claimsDto.Count;
             var openCount = claimsDto.Count(x => x.StatusId < 3);
             
