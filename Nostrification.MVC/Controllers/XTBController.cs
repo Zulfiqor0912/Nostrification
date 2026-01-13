@@ -69,14 +69,14 @@ public class XTBController(IMediator mediator, IWebHostEnvironment environment) 
             var version = (claim.Version.HasValue && claim.Version == 3) ? "v3" : "v2";
             if (await mediator.Send(new SendStatusGetCommand(claim.TaskId, version)))
             {
-                claim.StatusId = 2;
-
+                
                 await mediator.Send(new AddOrUpdateLogCommand(
                     claim.TaskId, 
                     user.Login, 
                     "Ko'rib chiqilmoqda", 
                     DateTime.Now));
 
+                claim.StatusId = 2;
                 await mediator.Send(new AddOrUpdateClaimCommand(claim));
             }
         }

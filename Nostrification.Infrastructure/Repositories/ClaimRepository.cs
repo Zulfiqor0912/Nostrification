@@ -9,7 +9,14 @@ public class ClaimRepository(NostrificationDbContext dbContext) : IClaimReposito
 {
     public async Task AddOrUpdateClaimAsync(Claim claim)
     {
-        if (claim.Id > 0) dbContext.Entry(claim);
+        if (claim.Id > 0)
+        {
+            var excisting = await dbContext.Claims.FirstAsync(x => x.Id == claim.Id);
+            excisting.StatusId = claim.StatusId;
+            excisting.AnswerComment = claim.AnswerComment;
+            excisting.AnswerDate = claim.AnswerDate;
+            excisting.UpdateDate = claim.UpdateDate;
+        } 
         else await dbContext.Claims.AddAsync(claim);
         await dbContext.SaveChangesAsync();
     }
