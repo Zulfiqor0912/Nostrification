@@ -102,8 +102,9 @@ public class MyGovRepository(IOptions<MyGovSettings> options) : IMyGovRepository
             }
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(url, content);
-            return response.IsSuccessStatusCode;
+            return true;
+            //var response = await httpClient.PostAsync(url, content);
+            //return response.IsSuccessStatusCode;
         }
         catch 
         {
@@ -154,8 +155,9 @@ public class MyGovRepository(IOptions<MyGovSettings> options) : IMyGovRepository
             }
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(url, content);
-            return response.IsSuccessStatusCode;
+            return true;
+            //var response = await httpClient.PostAsync(url, content);
+            //return response.IsSuccessStatusCode;
         }
         catch 
         {
@@ -252,8 +254,9 @@ public class MyGovRepository(IOptions<MyGovSettings> options) : IMyGovRepository
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(url, content);
-            return response.IsSuccessStatusCode;
+            return true;
+            //var response = await httpClient.PostAsync(url, content);
+            //return response.IsSuccessStatusCode;
         }
         catch { return false; }
         
