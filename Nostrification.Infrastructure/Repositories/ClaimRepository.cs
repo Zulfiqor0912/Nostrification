@@ -11,11 +11,29 @@ public class ClaimRepository(NostrificationDbContext dbContext) : IClaimReposito
     {
         if (claim.Id > 0)
         {
-            var excisting = await dbContext.Claims.FirstAsync(x => x.Id == claim.Id);
-            excisting.StatusId = claim.StatusId;
-            excisting.AnswerComment = claim.AnswerComment;
-            excisting.AnswerDate = claim.AnswerDate;
-            excisting.UpdateDate = claim.UpdateDate;
+            var existing = await dbContext.Claims.FirstAsync(x => x.Id == claim.Id);
+            //existing.StatusId = claim.StatusId;
+            //existing.AnswerComment = claim.AnswerComment;
+            //existing.AnswerDate = claim.AnswerDate;
+            //existing.UpdateDate = claim.UpdateDate;
+
+            //dbContext.Entry(excisting).CurrentValues.SetValues(claim);
+
+            existing.StatusId = claim.StatusId;
+            existing.AnswerComment = claim.AnswerComment;
+            existing.AnswerDate = claim.AnswerDate;
+            existing.UpdateDate = claim.UpdateDate;
+            existing.AnswerFile = claim.AnswerFile;
+            existing.refer_registr_numb = claim.refer_registr_numb;
+            existing.name_institution_gos = claim.name_institution_gos;
+            existing.graduation_year = claim.graduation_year;
+            existing.country_educated_gos = claim.country_educated_gos;
+            existing.series_doc_diploma_gos = claim.series_doc_diploma_gos;
+            existing.doc_number_diploma_gos = claim.doc_number_diploma_gos;
+            existing.head_organization = claim.head_organization;
+            existing.name_head_education = claim.name_head_education;
+            existing.registry_number = claim.registry_number;
+            existing.rejection_reason = claim.rejection_reason;
         } 
         else await dbContext.Claims.AddAsync(claim);
         await dbContext.SaveChangesAsync();
