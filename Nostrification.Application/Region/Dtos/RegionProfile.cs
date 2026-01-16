@@ -7,5 +7,6 @@ public class RegionProfile : Profile
     public RegionProfile() 
     {
         CreateMap<RegionDto, Domain.Entities.Region>();
+        CreateMap<Domain.Entities.Region, RegionDto>();
     }
 }

@@ -13,7 +13,8 @@ using Nostrification.Application.MyGov.Commands.DownloadRepo;
 
 namespace Nostrification.MVC.Controllers;
 
-//[Route("[controller]")]
+[Microsoft.AspNetCore.Mvc.Route("[controller]")]
+[ApiController]
 public class ApiController(
     IOtherRepository otherRepository,
     IMyGovRepository myGovRepository,
@@ -21,22 +22,27 @@ public class ApiController(
     IUserRepository userRepository,
     IMediator mediator) : BaseController
 {
-
+    [HttpGet("roles")]
     public async Task<IActionResult> GetRoles()
         => Ok((await mediator.Send(new GetAllRolesQuery())).Select(s => new { s.Id, s.Name }));
 
+    [HttpGet("regions")]
     public async Task<IActionResult> GetRegions()
         => Ok((await mediator.Send(new GetAllRegionsQuery())).Select(s => new { s.Id, s.NameUz }));
 
+    [HttpGet("countries")]
     public async Task<IActionResult> GetCountries()
         => Ok((await mediator.Send(new GetCountriesQuery())).Select(s => new { s.Id, s.NameUz }));
 
+    [HttpGet("districts/{id}")]
     public async Task<IActionResult> GetDistricts(int id)
         => Ok((await mediator.Send(new GetDistrictesQuery(id))).Select(s => new { s.Id, s.NameUz }));
 
+    [HttpGet("study-step")]
     public async Task<IActionResult> GetStudySteps()
         => Ok((await mediator.Send(new GetStudyStepsQuery())).Select(s => new { s.Id, s.Name }));
 
+    [HttpGet("study-type")]
     public async Task<IActionResult> GetStudyTypes()
         => Ok((await mediator.Send(new GetStudyTypesQueries())).Select(s => new { s.Id, s.Name }));
 
