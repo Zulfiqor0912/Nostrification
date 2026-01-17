@@ -9,4 +9,5 @@ public interface IMyGovRepository
     Task<bool> SendStatusAcceptAsync(int taskId, string fileBase64String, string version = "v2");
     Task<bool> SendCertificateStatusAsync(Claim claim, string version = "v2");
     Task<(byte[] fileBytes, string fileName)> GetRepoFileAsunc(int taskId, string version = "v2");
+    Task<string> GetJsonStringAsync(int taskId, string version = "v2");
 }

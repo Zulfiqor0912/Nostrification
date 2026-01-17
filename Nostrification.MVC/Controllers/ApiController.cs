@@ -10,6 +10,7 @@ using System.ComponentModel.Design;
 using Nostrification.Application.StudyStep.Queries;
 using Nostrification.Application.StudyTypes.Queries;
 using Nostrification.Application.MyGov.Commands.DownloadRepo;
+using Nostrification.Application.MyGov.Commands.JsonString;
 
 namespace Nostrification.MVC.Controllers;
 
@@ -65,5 +66,16 @@ public class ApiController(
         if (version == 3) claimVersion = "v3";
         var (fileBytes, fileName) = await mediator.Send(new DownloadRepoCommand(taskId, claimVersion));
         return File(fileBytes, "application/pdf", fileName);
+    }
+
+    [HttpGet("push-task")]
+    public async Task<IActionResult> PushTask(int taskId)
+    {
+
+    }
+
+    private async Task<IActionResult> ProcessPushTaskAsyn(int taskId, string version)
+    {
+        var json = await mediator.Send(new GetJsonStringCommandHandler(taskId, version));
     }
 }
