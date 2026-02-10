@@ -68,14 +68,14 @@ public class ApiController(
         return File(fileBytes, "application/pdf", fileName);
     }
 
-    [HttpGet("push-task")]
-    public async Task<IActionResult> PushTask(int taskId)
-    {
+    //[HttpGet("push-task")]
+    //public async Task<IActionResult> PushTask(int taskId)
+    //{
 
-    }
+    //}
 
-    private async Task<IActionResult> ProcessPushTaskAsyn(int taskId, string version)
-    {
-        var json = await mediator.Send(new GetJsonStringCommandHandler(taskId, version));
-    }
+    //private async Task<IActionResult> ProcessPushTaskAsyn(int taskId, string version)
+    //{
+    //    var json = await mediator.Send(new GetJsonStringCommandHandler(taskId, version));
+    //}
 }

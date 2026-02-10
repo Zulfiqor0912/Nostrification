@@ -12,8 +12,8 @@ using Nostrification.Infrastructure.Persistence;
 namespace Nostrification.Infrastructure.Migrations
 {
     [DbContext(typeof(NostrificationDbContext))]
-    [Migration("20251210015407_UpdateMigration_2")]
-    partial class UpdateMigration_2
+    [Migration("20260205115904_InitMigration")]
+    partial class InitMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
