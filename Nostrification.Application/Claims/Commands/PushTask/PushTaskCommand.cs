@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace Nostrification.Application.Claims.Commands.PushTask
+namespace Nostrification.Application.Claims.Commands.PushTask;
+
+public class PushTaskCommand(int TaskId, string Version) : IRequest
 {
-    internal class PushTaskCommand
-    {
-    }
+    public int taskId { get; set; } = TaskId;
+    public string version { get; set; } = Version;
 }

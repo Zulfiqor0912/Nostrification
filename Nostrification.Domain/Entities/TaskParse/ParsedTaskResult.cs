@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Nostrification.Domain.Entities.TaskParse;
 
-namespace Nostrification.Domain.Entities.TaskParse
+public class ParsedTaskResult
 {
-    internal class ParsedTaskResult
-    {
-    }
+    public TaskEntity Task { get; set; }
+    public Dictionary<string, object> Entities { get; set; }
 }

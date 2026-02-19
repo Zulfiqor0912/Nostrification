@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.EntityFrameworkCore.Update.Internal;
+using Newtonsoft.Json.Linq;
 using Nostrification.Domain.Entities.TaskParse;
 using Nostrification.Domain.Repositories;
 
@@ -7,8 +8,11 @@ namespace Nostrification.Infrastructure.Repositories;
 public class TaskParser : ITaskRepository
 {
 
-    Task<(TaskEntity Task, JToken Entities)> ITaskRepository.ParseAsync(string json, int taskId)
+    public async Task<(TaskEntity Task, JToken Entities)> ParseAsync(string json, int taskId)
     {
+        if (string.IsNullOrWhiteSpace(json))
+            throw new ArgumentException("JSON cannot be null or empty", nameof(json));
+
         var root = JObject.Parse(json);
         var taskJson = root["task"];
         var entities = root["entities"]?["SecondaryIssuedForeign"];
@@ -24,5 +28,8 @@ public class TaskParser : ITaskRepository
             OperatorOrg = taskJson["operator_org"]?.Value<string>(),
             OwnCreateDate = DateTime.Now
         };
+
+        return (task, entities);
     }
+    
 }

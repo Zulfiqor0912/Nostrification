@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
+using Nostrification.Domain.Entities.TaskParse;
 
-namespace Nostrification.Domain.Repositories
+namespace Nostrification.Domain.Repositories;
+
+public interface ITaskRepository
 {
-    internal interface ITaskRepository
-    {
-    }
+    public Task<(TaskEntity Task, JToken Entities)> ParseAsync(string json, int taskId);
+    public Task<(object taskEntity, object entities)> ParseAsync(Task<string> json, int taskId);
 }
